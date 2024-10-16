@@ -5,7 +5,7 @@ clear;
 % Windows Methoc: check Device Manager
 % Mac Method: "cd /" then "ls /dev/*" in Terminal
 
-arduinoBoard = arduino("/dev/tty.usbserial-2140", "Uno");   % mac
-%arduinoBoard = arduino("COM4", "Uno");                     % windows
+arduinoBoard = arduino("/dev/tty.usbserial-2140", "Uno");   % mac       /dev/tty.usbserial-0000
+%arduinoBoard = arduino("COM4", "Uno");                     % windows   COM0
 
-buttonState = readDigitalPin(arduinoBoard, 'D13');
+buttonState = readDigitalPin(arduinoBoard, 'D13');          % digital pin 13
