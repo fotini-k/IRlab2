@@ -10,7 +10,10 @@ robot = SerialLink([L1 L2 L3 L4 L5 L6],'name','IRB 120');
 
 q = zeros(1,robot.n); % This creates a vector of n joint angles at 0.
 workspace = [-4 +4 -4 +4 -4 +4];
-robot.plot(q,'workspace',workspace,'scale',scale);
+scale = 2;
+q = [pi/2 pi/2 pi/2 pi/2 pi/2 pi/2];
+
+robot.plot(q,'workspace',workspace, 'scale', scale);
 
 % 1.3) Use teach to change the q variable (i.e. the values for each joint), and check that the model matches the images provided. 
 robot.teach(q);
