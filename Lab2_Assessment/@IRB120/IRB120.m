@@ -1,22 +1,38 @@
-classdef IRB120 < RobotBassClass
-    %UNTITLED2 Summary of this class goes here
-    %   Detailed explanation goes here
+classdef IRB120 < RobotBaseClass
+    %% ABB IRB 120 robot class created by UTS students
+    % 
+    % WARNING: This model has been created by UTS students in the subject
+    % 41013. No guarentee is made about the accuracy or correctness of the
+    % of the DH parameters of the accompanying ply files. Do not assume
+    % that this matches the real robot!
 
-    properties
-        Property1
+  properties(Access = public)   
+        plyFileNameStem = 'IRB120';
     end
-
+    
+    
     methods
-        function obj = untitled2(inputArg1,inputArg2)
-            %UNTITLED2 Construct an instance of this class
-            %   Detailed explanation goes here
-            obj.Property1 = inputArg1 + inputArg2;
+%% Constructor
+        function self = IRB120(baseTr)
+            self.CreateModel();
+            if nargin == 1			
+				self.model.base = self.model.base.T * baseTr;
+            end   
+            self.PlotAndColourRobot();
         end
 
-        function outputArg = method1(obj,inputArg)
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
-            outputArg = obj.Property1 + inputArg;
-        end
+%% CreateModel
+        function CreateModel(self)
+            link(1) = Link('d',0.290,'a',0,'alpha',pi/2,'qlim',deg2rad([-165 165]), 'offset',0);
+            link(2) = Link('d',0,'a',0.270,'alpha',0,'qlim', deg2rad([-110 110]), 'offset',-pi/2);
+            link(3) = Link('d',0,'a',0.070,'alpha',-pi/2,'qlim', deg2rad([-110 70]), 'offset', 0);
+            link(4) = Link('d',0.302,'a',0,'alpha',pi/2,'qlim',deg2rad([-160 160]),'offset', 0);
+            link(5) = Link('d',0,'a',0,'alpha',-pi/2,'qlim',deg2rad([-120,120]), 'offset',0);
+            link(6) = Link('d',	0.072,'a',0,'alpha',0,'qlim',deg2rad([-400,400]), 'offset', pi);
+                   
+            self.model = SerialLink(link,'name',self.name);  
+
+            %qlims for robot?? (like what was done for Lab1 Linear UR3e?)
+        end    
     end
 end
