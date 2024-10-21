@@ -32,3 +32,6 @@ robot.teach(q);
 r = IRB120;
 
 r.model.teach();
+
+
+
