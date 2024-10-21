@@ -44,6 +44,6 @@ classdef IRB120 < RobotBaseClass
             self.model = SerialLink(link,'name',self.name);  
 
             %qlims for robot?? (like what was done for Lab1 Linear UR3e?)
-        end    
+        end
     end
 end
