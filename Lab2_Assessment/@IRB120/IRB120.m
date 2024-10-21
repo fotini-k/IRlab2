@@ -23,6 +23,7 @@ classdef IRB120 < RobotBaseClass
 
 %% CreateModel
         function CreateModel(self)
+           
             link(1) = Link('d',0.290,'a',0,'alpha',pi/2,'qlim',deg2rad([-165 165]), 'offset',0);
             link(2) = Link('d',0,'a',0.270,'alpha',0,'qlim', deg2rad([-110 110]), 'offset',-pi/2);
             link(3) = Link('d',0,'a',0.070,'alpha',-pi/2,'qlim', deg2rad([-110 70]), 'offset', 0);
