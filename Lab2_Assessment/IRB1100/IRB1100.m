@@ -16,10 +16,10 @@ classdef IRB1100 < RobotBaseClass
 function self = IRB1100(baseTr)
 
 
-            originalDir = pwd;
-            % Change directory to where the .ply files are located
-            plyFileDirectory = fileparts(mfilename('fullpath'));
-            cd(plyFileDirectory);
+            % originalDir = pwd;
+            % % % Change directory to where the .ply files are located
+            % plyFileDirectory = fileparts(mfilename('fullpath'));
+            % cd(plyFileDirectory);
 
 
             self.CreateModel();
@@ -27,15 +27,16 @@ function self = IRB1100(baseTr)
 				self.model.base = self.model.base.T * baseTr;
             end   
             self.PlotAndColourRobot();
-
-            % Switch back to the original directory
-            cd(originalDir);
+            % 
+            % % Switch back to the original directory
+            % cd(originalDir);
 
 
         end
 
 %% CreateModel
         function CreateModel(self)
+            which IRB1100
            
             link(1) = Link('d',0.327,'a',0,'alpha',pi/2,'qlim',deg2rad([-165 165]), 'offset',0);
             link(2) = Link('d',0,'a',0.290,'alpha',0,'qlim', deg2rad([-110 110]), 'offset', -pi/2);
