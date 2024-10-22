@@ -13,7 +13,7 @@ L6 = Link('d',	0.072,'a',0,'alpha',0,'qlim',deg2rad([-400,400]), 'offset', pi);
 % Link('d',0,'a',0,'alpha',-pi/2,'qlim',deg2rad([-120,120]), 'offset',0);
 % Link('d',	0.072,'a',0,'alpha',0,'qlim',deg2rad([-400,400]), 'offset', pi);
 
-robot = SerialLink([L1 L2 L3 L4 L5 L6],'name','IRB 120'); 
+robot = SerialLink([L1 L2 L3 L4 L5 L6],'name','IRB 1100'); 
 
 q = zeros(1,robot.n); % This creates a vector of n joint angles at 0.
 workspace = [-2 +2 -2 +2 -2 +2];
@@ -29,7 +29,7 @@ robot.teach(q);
 
 %% 
 
-r = IRB120;
+r = IRB1100;
 
 r.model.teach();
 
