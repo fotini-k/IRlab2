@@ -15,11 +15,22 @@ classdef IRB1100 < RobotBaseClass
 %% Constructor
 function self = IRB1100(baseTr)
 
-           self.CreateModel();
+
+            originalDir = pwd;
+            % Change directory to where the .ply files are located
+            plyFileDirectory = fileparts(mfilename('fullpath'));
+            cd(plyFileDirectory);
+
+
+            self.CreateModel();
             if nargin == 1			
 				self.model.base = self.model.base.T * baseTr;
             end   
             self.PlotAndColourRobot();
+
+            % Switch back to the original directory
+            cd(originalDir);
+
 
         end
 
