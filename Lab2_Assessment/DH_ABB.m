@@ -30,6 +30,7 @@ robot.teach(q);
 %% 
 
 r = IRB1100;
+which IRB1100;
 
 r.model.teach();
 
