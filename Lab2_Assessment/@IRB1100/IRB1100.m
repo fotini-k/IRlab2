@@ -37,12 +37,19 @@ classdef IRB1100 < RobotBaseClass
         function CreateModel(self)
             %which IRB1100
            
-            link(1) = Link('d',0.327,'a',0,'alpha',pi/2,'qlim',deg2rad([-165 165]), 'offset',0);
-            link(2) = Link('d',0,'a',0.290,'alpha',0,'qlim', deg2rad([-110 110]), 'offset', -pi/2);
-            link(3) = Link('d',0,'a',0.070,'alpha',-pi/2,'qlim', deg2rad([-110 70]), 'offset', 0);
-            link(4) = Link('d',0.302,'a',0,'alpha',pi/2,'qlim',deg2rad([-160 160]),'offset', 0);
-            link(5) = Link('d',0,'a',0,'alpha',-pi/2,'qlim',deg2rad([-120,120]), 'offset',0);
-            link(6) = Link('d',	0.072,'a',0,'alpha',0,'qlim',deg2rad([-400,400]), 'offset', pi);
+            % link(1) = Link('d',0.327,'a',0,'alpha',pi/2,'qlim',deg2rad([-165 165]), 'offset',0);
+            % link(2) = Link('d',0,'a',0.290,'alpha',0,'qlim', deg2rad([-110 110]), 'offset', -pi/2);
+            % link(3) = Link('d',0,'a',0.070,'alpha',-pi/2,'qlim', deg2rad([-110 70]), 'offset', 0);
+            % link(4) = Link('d',0.302,'a',0,'alpha',pi/2,'qlim',deg2rad([-160 160]),'offset', 0);
+            % link(5) = Link('d',0,'a',0,'alpha',-pi/2,'qlim',deg2rad([-120,120]), 'offset',0);
+            % link(6) = Link('d',	0.072,'a',0,'alpha',0,'qlim',deg2rad([-400,400]), 'offset', pi);
+
+            link(1) = Link('d',0.327,'a',0,'alpha',pi/2,'qlim',deg2rad([-230 230]), 'offset',0);
+            link(2) = Link('d',0,'a',0.290,'alpha',0,'qlim', deg2rad([-115 113]), 'offset', pi/2);
+            link(3) = Link('d',0 ,'a',0,'alpha',-pi/2,'qlim', deg2rad([-205 55]), 'offset', 0);
+            link(4) = Link('d',0.2275,'a', 0,'alpha',pi/2,'qlim',deg2rad([-230 230]),'offset', 0);
+            link(5) = Link('d',0 ,'a',0,'alpha',-pi/2,'qlim',deg2rad([-125,120]), 'offset',0);
+            link(6) = Link('d',	0.064,'a',0,'alpha',0,'qlim',deg2rad([-400,400]), 'offset', pi);
                    
             self.model = SerialLink(link,'name',self.name);  
 
