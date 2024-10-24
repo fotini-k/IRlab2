@@ -48,7 +48,6 @@ classdef IRB1100 < RobotBaseClass
 
             axis equal;
         
-            %qlims for robot?? (like what was done for Lab1 Linear UR3e?)
         end
     end
 end
