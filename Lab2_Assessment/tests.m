@@ -15,6 +15,8 @@
         % robot = SerialLink([L1 L2 L3 L4 L5 L6],'name','myRobot')                     % Generate the model
         % 
         robot = IRB1100;
+
+      
         % workspace = [-1 1 -1 1 0 1];                                       % Set the size of the workspace when drawing the robot        
         % scale = 0.5;        
         % q = zeros(1,6);                                                     % Create a vector of initial joint angles        
