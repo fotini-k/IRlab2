@@ -23,3 +23,28 @@
         % robot.plot(q,'workspace',workspace,'scale',scale);                  % Plot the robot
         
         robot.model.teach;  
+
+
+
+%% DobotMagician Movement Testing
+
+        q0 = [0, 0, 0, 0, 0];
+        q1 = [pi/2, pi/2, 0, pi/2, 0];
+        currentPos = robot.model.getpos()
+        steps = 250;
+
+    
+
+move2Pos(robot, q0, q1, steps)
+
+        function move2Pos(robot, startPos, endPos, steps)
+            qMatrix = jtraj(startPos, endPos, steps);
+            for i = 1:steps
+                robot.model.animate(qMatrix(i,:));
+                axis equal
+                drawnow()
+            
+                T = robot.model.fkine(qMatrix(i,:));
+            end
+
+        end
