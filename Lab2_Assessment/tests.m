@@ -14,7 +14,9 @@
         
         % robot = SerialLink([L1 L2 L3 L4 L5 L6],'name','myRobot')                     % Generate the model
         % 
-        robot = IRB1100;
+       
+      
+        robot = DobotMagician;
 
       
         % workspace = [-1 1 -1 1 0 1];                                       % Set the size of the workspace when drawing the robot        
@@ -27,24 +29,56 @@
 
 
 %% DobotMagician Movement Testing
+clc
+clear
 
-        q0 = [0, 0, 0, 0, 0];
-        q1 = [pi/2, pi/2, 0, pi/2, 0];
-        currentPos = robot.model.getpos()
-        steps = 250;
+robot = DobotMagician;
+currentPos = robot.model.getpos();
 
-    
+which DobotMagician
 
-move2Pos(robot, q0, q1, steps)
+q0 = currentPos;
+T0 = transl(0.041, 0.197, 0.215);
+T1 = transl(0.148, 0.234, 0.077);
+
+q1 = robot.model.ikcon(T0, currentPos);
+q2 = robot.model.ikcon(T1, currentPos);
+
+q3 = [pi, 0, 0, pi/2, 0 ];
+q4 = [pi, pi/2, 0, pi/2, 0];
+
+steps = 250;
+
+
+
+
+
+move2Pos(robot, currentPos, q1, steps);
+
+currentPos = robot.model.getpos();
+
+move2Pos(robot, currentPos, q2, steps)
+
+currentPos = robot.model.getpos();
+
+maximus_thane = rad2deg(currentPos)
+
+
+
+
+% move2Pos(robot, q1, q2, steps);
+% 
+% move2Pos(robot, q2, q3, steps);
+% 
+% move2Pos(robot, q3, q4, steps);
 
         function move2Pos(robot, startPos, endPos, steps)
             qMatrix = jtraj(startPos, endPos, steps);
+            
             for i = 1:steps
                 robot.model.animate(qMatrix(i,:));
                 axis equal
                 drawnow()
             
-                T = robot.model.fkine(qMatrix(i,:));
             end
-
         end
