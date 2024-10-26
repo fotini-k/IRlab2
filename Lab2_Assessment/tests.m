@@ -38,18 +38,17 @@ currentPos = robot.model.getpos();
 which DobotMagician
 
 q0 = currentPos;
-T0 = transl(0.041, 0.197, 0.215);
-T1 = transl(0.148, 0.234, 0.077);
+T1 = transl(0.1, 0.1, 0.1);
+T2 = transl(0.5, 0.2, 0.1);
+T3 = transl(0.1, 0.5, 0.1);
 
-q1 = robot.model.ikcon(T0, currentPos);
-q2 = robot.model.ikcon(T1, currentPos);
+q1 = robot.model.ikunc(T1, currentPos);
+q2 = robot.model.ikunc(T2, currentPos);
+q3 = robot.model.ikunc(T3, currentPos);
 
-q3 = [pi, 0, 0, pi/2, 0 ];
 q4 = [pi, pi/2, 0, pi/2, 0];
 
 steps = 250;
-
-
 
 
 
@@ -60,6 +59,11 @@ currentPos = robot.model.getpos();
 move2Pos(robot, currentPos, q2, steps)
 
 currentPos = robot.model.getpos();
+
+move2Pos(robot, currentPos, q3, steps)
+
+currentPos = robot.model.getpos();
+
 
 maximus_thane = rad2deg(currentPos)
 
