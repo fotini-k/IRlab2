@@ -33,39 +33,73 @@ clc
 clear
 
 robot = DobotMagician;
+hold on
 currentPos = robot.model.getpos();
 
 which DobotMagician
 
+
+
+% Shovel placement
+shovel = PlaceObject('shovel.ply');
+axis equal
+shovelVertices = get(shovel, 'Vertices');
+transformedVertices = [shovelVertices, ...
+    ones(size(shovelVertices, 1), 1)]*transl(0, -0.25, 1)';
+set(shovel, 'Vertices', transformedVertices(:, 1:3));
+
+
+
 q0 = currentPos;
-T1 = transl(0.1, 0.1, 0.1);
-T2 = transl(0.5, 0.2, 0.1);
-T3 = transl(0.1, 0.5, 0.1);
+
+% Move to trowel and pick it up
+T1 = transl(0,-0.25 , 0.15);
+T2 = transl(0, -0.25, 0.05);
+T3 = transl(0,-0.25 , 0.15);
 
 q1 = robot.model.ikunc(T1, currentPos);
 q2 = robot.model.ikunc(T2, currentPos);
 q3 = robot.model.ikunc(T3, currentPos);
 
-q4 = [pi, pi/2, 0, pi/2, 0];
+% Move to first plot
+T4 = transl(0.2, 0.2, 0.15)* trotx(0);
+T5 = transl(0.2, 0.2, 0)* trotx(-pi/6);
+T6 = transl(0.2, 0.2, 0)* trotx(pi/8);
+T7 = transl(0.2, 0.2, 0.15)* trotx(pi/8);
 
-steps = 250;
+
+
+q4 = robot.model.ikunc(T4, currentPos);
+q5 = robot.model.ikunc(T5, currentPos);
+q6 = robot.model.ikunc(T6, currentPos);
+q7 = robot.model.ikunc(T7, currentPos);
+
+steps = 100;
 
 
 
-move2Pos(robot, currentPos, q1, steps);
-
+move2Pos(robot, currentPos, q1, steps, shovelVertices, shovel);
 currentPos = robot.model.getpos();
 
-move2Pos(robot, currentPos, q2, steps)
-
+move2Pos(robot, currentPos, q2, steps, shovelVertices, shovel);
 currentPos = robot.model.getpos();
 
-move2Pos(robot, currentPos, q3, steps)
-
+move2Pos(robot, currentPos, q3, steps, shovelVertices, shovel);
 currentPos = robot.model.getpos();
 
+move2Pos(robot, currentPos, q4, steps, shovelVertices, shovel);
+currentPos = robot.model.getpos();
 
-maximus_thane = rad2deg(currentPos)
+move2Pos(robot, currentPos, q5, steps, shovelVertices, shovel);
+currentPos = robot.model.getpos();
+
+move2Pos(robot, currentPos, q6, steps, shovelVertices, shovel);
+currentPos = robot.model.getpos();
+
+move2Pos(robot, currentPos, q7, steps, shovelVertices, shovel);
+currentPos = robot.model.getpos();
+
+%maximus_thane = rad2deg(currentPos)
 
 
 
@@ -76,13 +110,17 @@ maximus_thane = rad2deg(currentPos)
 % 
 % move2Pos(robot, q3, q4, steps);
 
-        function move2Pos(robot, startPos, endPos, steps)
-            qMatrix = jtraj(startPos, endPos, steps);
-            
-            for i = 1:steps
-                robot.model.animate(qMatrix(i,:));
-                axis equal
-                drawnow()
-            
-            end
+    function move2Pos(robot, startPos, endPos, steps, shovelVertices, shovel)
+        qMatrix = jtraj(startPos, endPos, steps);
+
+        for i = 1:steps
+            robot.model.animate(qMatrix(i,:));
+            tr = robot.model.fkine(qMatrix(i,:));
+            transformedVertices = [shovelVertices, ones(size(shovelVertices, 1),1)]*tr.T';
+            set(shovel, 'Vertices', transformedVertices(:, 1:3));
+            axis equal
+            drawnow()
+
         end
+    end
+
