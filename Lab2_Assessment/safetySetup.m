@@ -18,5 +18,3 @@ function safetySetup()
 
     
 end
-
-end
