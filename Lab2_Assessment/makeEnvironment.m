@@ -18,6 +18,8 @@ seedBowl = PlaceObject('seed.ply',[0.2,0.1,0]);
 dobot = DobotMagician;
 dobot.model.base = transl(0.5, 0.2, 0.1) * trotz(pi/2);
 
-dobot.model.plot(dobot.homeQ);
+%dobot.model.plot(dobot.homeQ);
 
 axis = [-1 1 -1 1 -1 1];
+
+dobot.model.teach(dobot.homeQ);
