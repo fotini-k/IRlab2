@@ -25,7 +25,7 @@ classdef IRB1100 < RobotBaseClass
 		        self.model.base = self.model.base.T * baseTr;
             end   
             self.PlotAndColourRobot();
-            axis([-4 4 -4 4 0 4]);
+            axis([-4 4 -4 4 0 6]);
 
     
             % 
@@ -45,9 +45,9 @@ classdef IRB1100 < RobotBaseClass
             % link(6) = Link('d',	0.072,'a',0,'alpha',0,'qlim',deg2rad([-400,400]), 'offset', pi);
 
             link(1) = Link('d',1.65,'a',0,'alpha',pi/2,'qlim',deg2rad([-230 230]), 'offset',0);
-            link(2) = Link('d',0,'a',1.5,'alpha',0,'qlim', deg2rad([-115 113]), 'offset', pi/2);
-            link(3) = Link('d',0.1 ,'a',0,'alpha',pi/2,'qlim', deg2rad([-55 205]), 'offset', 0);
-            link(4) = Link('d',1.45,'a', 0,'alpha',0,'qlim',deg2rad([-230 230]),'offset', 0);
+            link(2) = Link('d',-0.09,'a',1.5,'alpha',0,'qlim', deg2rad([-115 113]), 'offset', pi/2);
+            link(3) = Link('d',0.15 ,'a',0,'alpha',pi/2,'qlim', deg2rad([-55 205]), 'offset', 0);
+            % link(4) = Link('d',1.5,'a', 0,'alpha',-pi/2,'qlim',deg2rad([-230 230]),'offset', 0);
             % link(5) = Link('d',0 ,'a',1,'alpha',0,'qlim',deg2rad([-125,120]), 'offset',0);
             % link(6) = Link('d',	0,'a',0.35,'alpha',0,'qlim',deg2rad([-400,400]), 'offset', 0);
 
