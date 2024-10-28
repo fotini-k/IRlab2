@@ -46,7 +46,7 @@ classdef IRB1100 < RobotBaseClass
 
             link(1) = Link('d',1.65,'a',0,'alpha',pi/2,'qlim',deg2rad([-230 230]), 'offset',0);
             link(2) = Link('d',-0.09,'a',1.4,'alpha',0,'qlim', deg2rad([-115 113]), 'offset', pi/2);
-            link(3) = Link('d',0.15 ,'a',0.1,'alpha',pi/2,'qlim', deg2rad([-55 205]), 'offset', 0);
+            link(3) = Link('d',0.15 ,'a',0.1,'alpha',pi/2,'qlim', deg2rad([-205 55]), 'offset', 0);
             link(4) = Link('d',-1.6,'a', -0.15,'alpha',-pi/2,'qlim',deg2rad([-230 230]),'offset', 0);
             link(5) = Link('d',-0.05 ,'a',0.1,'alpha',-pi/2,'qlim',deg2rad([-125,120]), 'offset',0);
             link(6) = Link('d',	0.25,'a',0,'alpha',0,'qlim',deg2rad([-400,400]), 'offset', 0);
