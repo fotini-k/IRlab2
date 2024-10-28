@@ -41,7 +41,7 @@ which DobotMagician
 
 
 % Shovel placement
-shovel = PlaceObject('shovel.ply');
+shovel = PlaceObject('wateringcan.ply');
 axis equal
 shovelVertices = get(shovel, 'Vertices');
 transformedVertices = [shovelVertices, ...
@@ -78,26 +78,26 @@ steps = 100;
 
 
 
-move2Pos(robot, currentPos, q1, steps, shovelVertices, shovel);
+move2Pos(robot, currentPos, currentPos, steps, shovelVertices, shovel);
 currentPos = robot.model.getpos();
-
-move2Pos(robot, currentPos, q2, steps, shovelVertices, shovel);
-currentPos = robot.model.getpos();
-
-move2Pos(robot, currentPos, q3, steps, shovelVertices, shovel);
-currentPos = robot.model.getpos();
-
-move2Pos(robot, currentPos, q4, steps, shovelVertices, shovel);
-currentPos = robot.model.getpos();
-
-move2Pos(robot, currentPos, q5, steps, shovelVertices, shovel);
-currentPos = robot.model.getpos();
-
-move2Pos(robot, currentPos, q6, steps, shovelVertices, shovel);
-currentPos = robot.model.getpos();
-
-move2Pos(robot, currentPos, q7, steps, shovelVertices, shovel);
-currentPos = robot.model.getpos();
+% 
+% move2Pos(robot, currentPos, q2, steps, shovelVertices, shovel);
+% currentPos = robot.model.getpos();
+% 
+% move2Pos(robot, currentPos, q3, steps, shovelVertices, shovel);
+% currentPos = robot.model.getpos();
+% 
+% move2Pos(robot, currentPos, q4, steps, shovelVertices, shovel);
+% currentPos = robot.model.getpos();
+% 
+% move2Pos(robot, currentPos, q5, steps, shovelVertices, shovel);
+% currentPos = robot.model.getpos();
+% 
+% move2Pos(robot, currentPos, q6, steps, shovelVertices, shovel);
+% currentPos = robot.model.getpos();
+% 
+% move2Pos(robot, currentPos, q7, steps, shovelVertices, shovel);
+% currentPos = robot.model.getpos();
 
 %maximus_thane = rad2deg(currentPos)
 
