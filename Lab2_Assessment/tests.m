@@ -266,6 +266,84 @@ currentPosDobot = robot1.model.getpos();
 move2PosDobot(robot1, currentPosDobot, q18_Dobot, steps, canVertices, can);
 currentPosDobot = robot1.model.getpos();
 
+% Watering cycle on the way back around
+
+[T16_Dobot, T17_Dobot, T18_Dobot] = plot5Dobot(2);
+q16_Dobot = robot1.model.ikunc(T16_Dobot, currentPosDobot);
+q17_Dobot = robot1.model.ikunc(T17_Dobot, currentPosDobot);
+q18_Dobot = robot1.model.ikunc(T18_Dobot, currentPosDobot);
+
+move2PosDobot(robot1, currentPosDobot, q18_Dobot, steps, canVertices, can);
+currentPosDobot = robot1.model.getpos();
+
+move2PosDobot(robot1, currentPosDobot, q17_Dobot, steps, canVertices, can);
+currentPosDobot = robot1.model.getpos();
+
+move2PosDobot(robot1, currentPosDobot, q16_Dobot, steps, canVertices, can);
+currentPosDobot = robot1.model.getpos();
+
+[T13_Dobot, T14_Dobot, T15_Dobot] = plot4Dobot(2) ;
+
+q13_Dobot = robot1.model.ikunc(T13_Dobot, currentPosDobot);
+q14_Dobot = robot1.model.ikunc(T14_Dobot, currentPosDobot);
+q15_Dobot = robot1.model.ikunc(T15_Dobot, currentPosDobot);
+
+move2PosDobot(robot1, currentPosDobot, q15_Dobot, steps, canVertices, can);
+currentPosDobot = robot1.model.getpos();
+
+move2PosDobot(robot1, currentPosDobot, q14_Dobot, steps, canVertices, can);
+currentPosDobot = robot1.model.getpos();
+
+move2PosDobot(robot1, currentPosDobot, q13_Dobot, steps, canVertices, can);
+currentPosDobot = robot1.model.getpos();
+
+[T10_Dobot, T11_Dobot, T12_Dobot] = plot3Dobot(2);  
+
+q10_Dobot = robot1.model.ikunc(T10_Dobot, currentPosDobot);
+q11_Dobot = robot1.model.ikunc(T11_Dobot, currentPosDobot);
+q12_Dobot = robot1.model.ikunc(T12_Dobot, currentPosDobot);
+
+move2PosDobot(robot1, currentPosDobot, q12_Dobot, steps, canVertices, can);
+currentPosDobot = robot1.model.getpos();
+
+move2PosDobot(robot1, currentPosDobot, q11_Dobot, steps, canVertices, can);
+currentPosDobot = robot1.model.getpos();
+
+move2PosDobot(robot1, currentPosDobot, q10_Dobot, steps, canVertices, can);
+currentPosDobot = robot1.model.getpos();
+
+
+[T7_Dobot, T8_Dobot, T9_Dobot] = plot2Dobot(2);
+
+q7_Dobot = robot1.model.ikunc(T7_Dobot, currentPosDobot);
+q8_Dobot = robot1.model.ikunc(T8_Dobot, currentPosDobot);
+q9_Dobot = robot1.model.ikunc(T9_Dobot, currentPosDobot);
+
+move2PosDobot(robot1, currentPosDobot, q9_Dobot, steps, canVertices, can);
+currentPosDobot = robot1.model.getpos();
+
+move2PosDobot(robot1, currentPosDobot, q8_Dobot, steps, canVertices, can);
+currentPosDobot = robot1.model.getpos();
+
+move2PosDobot(robot1, currentPosDobot, q7_Dobot, steps, canVertices, can);
+currentPosDobot = robot1.model.getpos();
+
+
+[T4_Dobot, T5_Dobot, T6_Dobot] = plot1Dobot(2);
+
+q4_Dobot = robot1.model.ikunc(T4_Dobot, currentPosDobot);
+q5_Dobot = robot1.model.ikunc(T5_Dobot, currentPosDobot);
+q6_Dobot = robot1.model.ikunc(T6_Dobot, currentPosDobot);
+
+move2PosDobot(robot1, currentPosDobot, q6_Dobot, steps, canVertices, can);
+currentPosDobot = robot1.model.getpos();
+
+move2PosDobot(robot1, currentPosDobot, q5_Dobot, steps, canVertices, can);
+currentPosDobot = robot1.model.getpos();
+
+move2PosDobot(robot1, currentPosDobot, q4_Dobot, steps, canVertices, can);
+currentPosDobot = robot1.model.getpos();
+
 
 function move2PosDobot(robot1, startPosDobot, endPosDobot, steps, canVertices, can)
         qMatrix = jtraj(startPosDobot, endPosDobot, steps);
