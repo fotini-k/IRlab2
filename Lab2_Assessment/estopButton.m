@@ -11,8 +11,6 @@ arduinoBoard = arduino("COM4", "Uno");                     % windows   COM0
 buttonState = readDigitalPin(arduinoBoard, 'D13');          % digital pin 13
 
 %% E Stop with a keyboard input
-
-%% Combined Robot Movement with ESTOp
 clc
 clear
 
