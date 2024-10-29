@@ -1,5 +1,3 @@
-clear; clf;
-
 function makeEnvironment
 
 hold on;
