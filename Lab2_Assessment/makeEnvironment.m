@@ -1,5 +1,7 @@
 clear; clf;
 
+function makeEnvironment
+
 hold on;
 view(3);
 
@@ -15,11 +17,13 @@ set(gardenBed, 'Vertices', get(gardenBed, 'Vertices') * 0.25 + [0.5, 0.2, 0]);
 
 seedBowl = PlaceObject('seed.ply',[0.2,0.1,0]);
 
-dobot = DobotMagician;
-dobot.model.base = transl(0.5, 0.2, 0.1) * trotz(pi/2);
+end
 
-%dobot.model.plot(dobot.homeQ);
-
-axis = [-1 1 -1 1 -1 1];
-
-dobot.model.teach(dobot.homeQ);
+% dobot = DobotMagician;
+% dobot.model.base = transl(0.5, 0.2, 0.1) * trotz(pi/2);
+% 
+% %dobot.model.plot(dobot.homeQ);
+% 
+% axis = [-1 1 -1 1 -1 1];
+% 
+% dobot.model.teach(dobot.homeQ);
