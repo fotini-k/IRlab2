@@ -110,24 +110,6 @@ q8_ABB = robot2.model.ikcon(T8_ABB, currentPosABB);
 % currentPosABB = robot2.model.getpos();
 
 
-function move2PosABB(robot2, startPosABB, endPosABB, steps, shovelVertices, shovel)
-    qMatrix = jtraj(startPosABB, endPosABB, steps);
-   
-
-
-            for i = 1:steps
-
-                robot2.model.animate(qMatrix(i,:));
-                tr = robot2.model.fkine(qMatrix(i,:));
-                transformedVertices = [shovelVertices, ones(size(shovelVertices, 1),1)]*tr.T';
-                set(shovel, 'Vertices', transformedVertices(:, 1:3));
-                axis equal
-                drawnow()
-            
-             end
-        end
-
-
 
 q0 = currentPosDobot;
 
@@ -314,17 +296,89 @@ move2PosDobot(robot1, currentPosDobot, q4_Dobot, steps, canVertices, can);
 currentPosDobot = robot1.model.getpos();
 
 
-function move2PosDobot(robot1, startPosDobot, endPosDobot, steps, canVertices, can)
-        qMatrix = jtraj(startPosDobot, endPosDobot, steps);
+% function move2PosDobot(robot1, startPosDobot, endPosDobot, steps, canVertices, can)
+%         qMatrix = jtraj(startPosDobot, endPosDobot, steps);
+% 
+%         for i = 1:steps
+%             robot1.model.animate(qMatrix(i,:));
+%             tr = robot1.model.fkine(qMatrix(i,:));
+%             transformedCanVertices = [canVertices, ones(size(canVertices, 1),1)]*tr.T';
+%             set(can, 'Vertices', transformedCanVertices(:, 1:3));
+%             axis equal
+%             drawnow()
+% 
+%         end
+% end
 
-        for i = 1:steps
-            robot1.model.animate(qMatrix(i,:));
-            tr = robot1.model.fkine(qMatrix(i,:));
-            transformedCanVertices = [canVertices, ones(size(canVertices, 1),1)]*tr.T';
-            set(can, 'Vertices', transformedCanVertices(:, 1:3));
-            axis equal
-            drawnow()
+% Move dobot function w hardware estop
+function move2PosDobot(robot1, startPosDobot, endPosDobot, steps, shovelVertices, shovel)
+    % Initialize Arduino and button variables
+    arduinoBoard = arduino("COM4", "Uno");
+
+    buttonFlag = false;  % Flag for whether the button has been pressed
+    prevButtonState = 0; % tracks previous state of button press
+
+    qMatrix = jtraj(startPosDobot, endPosDobot, steps);
+
+    for i = 1:steps
+        
+        buttonState = readDigitalPin(arduinoBoard, 'D4'); % Digital pin 4
+
+        % Check for a button press transition (0 -> 1)
+        if buttonState == 1 && prevButtonState == 0
+            buttonFlag = ~buttonFlag; 
+        end
+
+        prevButtonState = buttonState; % Update state for future checks
+
+        % Stop movement until next button press
+        if buttonFlag
+            disp('E-Stop Activated');
+
+            while buttonFlag
+                buttonState = readDigitalPin(arduinoBoard, 'D4');
+
+                if buttonState == 1 && prevButtonState == 0
+                    buttonFlag = ~buttonFlag; 
+                    disp('E-Stop Deactivated');
+                end
+
+                prevButtonState = buttonState;
+                
+                pause(0.1); % pause to debounce button
+            end
 
         end
+
+        %Movement robotic arm
+        robot1.model.animate(qMatrix(i,:));
+        tr = robot1.model.fkine(qMatrix(i,:));
+        transformedVertices = [shovelVertices, ones(size(shovelVertices, 1), 1)] * tr.T';
+        set(shovel, 'Vertices', transformedVertices(:, 1:3));
+        axis equal;
+        drawnow();
+
+        % delay to detect button press
+        pause(0.01);
     end
+end
+
+
+function move2PosABB(robot2, startPosABB, endPosABB, steps, shovelVertices, shovel)
+    qMatrix = jtraj(startPosABB, endPosABB, steps);
+   
+
+
+            for i = 1:steps
+
+                robot2.model.animate(qMatrix(i,:));
+                tr = robot2.model.fkine(qMatrix(i,:));
+                transformedVertices = [shovelVertices, ones(size(shovelVertices, 1),1)]*tr.T';
+                set(shovel, 'Vertices', transformedVertices(:, 1:3));
+                axis equal
+                drawnow()
+            
+             end
+end
+
 
