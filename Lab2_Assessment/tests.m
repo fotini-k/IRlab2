@@ -28,19 +28,35 @@
 
 
 
-%% DobotMagician Movement Testing
+%% Combined Robot Movement
 clc
 clear
 
-robot = DobotMagician;
+x = 0.2;
+y = 0.2;
+z = 0.1;
+
+angleDown = 7*pi/6;
+angleUp = 5*pi/6;
+
+% Dobot Magician Setup
+robot1 = DobotMagician;
+offsetDobot = transl(0.25, 0, 0);
+robot1.model.base = offsetDobot;
+
+currentPosDobot = robot1.model.getpos();
 hold on
-currentPos = robot.model.getpos();
-
-which DobotMagician
 
 
+% ABB IRB1100 Setup
+robot2 = IRB1100;
+offsetABB = transl(0, 0, 0)*trotx(pi)*troty(pi);
+robot2.model.base = offsetABB;
+currentPosABB = robot2.model.getpos();
 
-% Shovel placement
+drawnow();
+
+% Shovel Setup
 shovel = PlaceObject('wateringcan.ply');
 axis equal
 shovelVertices = get(shovel, 'Vertices');
@@ -48,92 +64,82 @@ transformedVertices = [shovelVertices, ...
     ones(size(shovelVertices, 1), 1)]*transl(0, -0.25, 1)';
 set(shovel, 'Vertices', transformedVertices(:, 1:3));
 
+% Watering Can Setup
 
-
-q0 = currentPos;
+q0 = currentPosDobot;
 
 % Move to trowel and pick it up
-T1 = transl(0,-0.25 , 0.15);
-T2 = transl(0, -0.25, 0.05);
-T3 = transl(0,-0.25 , 0.15);
+T1_Dobot = transl(0,-0.25 , 0.15);
+T2_Dobot = transl(0, -0.25, 0.05);
+T3_Dobot = transl(0,-0.25 , 0.15);
 
-q1 = robot.model.ikunc(T1, currentPos);
-q2 = robot.model.ikunc(T2, currentPos);
-q3 = robot.model.ikunc(T3, currentPos);
+q1_Dobot = robot1.model.ikunc(T1_Dobot, currentPosDobot);
+q2_Dobot = robot1.model.ikunc(T2_Dobot, currentPosDobot);
+q3_Dobot = robot1.model.ikunc(T3_Dobot, currentPosDobot);
 
 % Move to first plot
-T4 = transl(0.2, 0.2, 0.15)* trotx(0);
-T5 = transl(0.2, 0.2, 0)* trotx(-pi/6);
-T6 = transl(0.2, 0.2, 0)* trotx(pi/8);
-T7 = transl(0.2, 0.2, 0.15)* trotx(pi/8);
+T4_Dobot = transl(0.2, 0.2, 0.15)* trotx(0);
+T5_Dobot = transl(0.2, 0.2, 0)* trotx(-pi/6);
+T6_Dobot = transl(0.2, 0.2, 0)* trotx(pi/8);
+T7_Dobot = transl(0.2, 0.2, 0.15)* trotx(pi/8);
 
 
 
-q4 = robot.model.ikunc(T4, currentPos);
-q5 = robot.model.ikunc(T5, currentPos);
-q6 = robot.model.ikunc(T6, currentPos);
-q7 = robot.model.ikunc(T7, currentPos);
+q4_Dobot = robot1.model.ikunc(T4_Dobot, currentPosDobot);
+q5_Dobot = robot1.model.ikunc(T5_Dobot, currentPosDobot);
+q6_Dobot = robot1.model.ikunc(T6_Dobot, currentPosDobot);
+q7_Dobot = robot1.model.ikunc(T7_Dobot, currentPosDobot);
 
 steps = 100;
 
 
 
-move2Pos(robot, currentPos, currentPos, steps, shovelVertices, shovel);
-currentPos = robot.model.getpos();
-% 
-% move2Pos(robot, currentPos, q2, steps, shovelVertices, shovel);
-% currentPos = robot.model.getpos();
-% 
-% move2Pos(robot, currentPos, q3, steps, shovelVertices, shovel);
-% currentPos = robot.model.getpos();
-% 
-% move2Pos(robot, currentPos, q4, steps, shovelVertices, shovel);
-% currentPos = robot.model.getpos();
-% 
-% move2Pos(robot, currentPos, q5, steps, shovelVertices, shovel);
-% currentPos = robot.model.getpos();
-% 
-% move2Pos(robot, currentPos, q6, steps, shovelVertices, shovel);
-% currentPos = robot.model.getpos();
-% 
-% move2Pos(robot, currentPos, q7, steps, shovelVertices, shovel);
-% currentPos = robot.model.getpos();
+move2PosDobot(robot1, currentPosDobot, currentPosDobot, steps, shovelVertices, shovel);
+currentPosDobot = robot1.model.getpos();
 
-%maximus_thane = rad2deg(currentPos)
+move2PosDobot(robot1, currentPosDobot, q2_Dobot, steps, shovelVertices, shovel);
+currentPosDobot = robot1.model.getpos();
+
+move2PosDobot(robot1, currentPosDobot, q3_Dobot, steps, shovelVertices, shovel);
+currentPosDobot = robot1.model.getpos();
+
+move2PosDobot(robot1, currentPosDobot, q4_Dobot, steps, shovelVertices, shovel);
+currentPosDobot = robot1.model.getpos();
+
+move2PosDobot(robot1, currentPosDobot, q5_Dobot, steps, shovelVertices, shovel);
+currentPosDobot = robot1.model.getpos();
+
+move2PosDobot(robot1, currentPosDobot, q6_Dobot, steps, shovelVertices, shovel);
+currentPosDobot = robot1.model.getpos();
+
+move2PosDobot(robot1, currentPosDobot, q7_Dobot, steps, shovelVertices, shovel);
+currentPosDobot = robot1.model.getpos();
 
 
 
 
-% move2Pos(robot, q1, q2, steps);
-% 
-% move2Pos(robot, q2, q3, steps);
-% 
-% move2Pos(robot, q3, q4, steps);
 
-    % function move2Pos(robot, startPos, endPos, steps, shovelVertices, shovel)
-    %     qMatrix = jtraj(startPos, endPos, steps);
-    % 
-    %     for i = 1:steps
-    %         robot.model.animate(qMatrix(i,:));
-    %         tr = robot.model.fkine(qMatrix(i,:));
-    %         transformedVertices = [shovelVertices, ones(size(shovelVertices, 1),1)]*tr.T';
-    %         set(shovel, 'Vertices', transformedVertices(:, 1:3));
-    %         axis equal
-    %         drawnow()
-    % 
-    %     end
-    % end
 
-%% IRB1100 Movement Testing
 
-clc
-clear
 
-robot = IRB1100;
-hold on
-currentPos = robot.model.getpos();
+    function move2PosDobot(robot1, startPosDobot, endPosDobot, steps, shovelVertices, shovel)
+        qMatrix = jtraj(startPosDobot, endPosDobot, steps);
 
-% F5 to pause, F5 to restart again
+        for i = 1:steps
+            robot1.model.animate(qMatrix(i,:));
+            tr = robot1.model.fkine(qMatrix(i,:));
+            transformedVertices = [shovelVertices, ones(size(shovelVertices, 1),1)]*tr.T';
+            set(shovel, 'Vertices', transformedVertices(:, 1:3));
+            axis equal
+            drawnow()
+
+        end
+    end
+
+
+
+
+
 
 
 
@@ -147,79 +153,76 @@ set(shovel, 'Vertices', transformedVertices(:, 1:3));
 
 
 
-q0 = currentPos;
+q0 = currentPosABB;
 
 % Move to trowel and pick it up
-T1 = transl(-2, 1, 1)* troty(pi);
-T2 = transl(-2, 1, 0)* troty(pi);
-T3 = transl(-2, 1, 1)* troty(pi);
+T1_ABB = transl(-0.2, 0.1, 0.1)* troty(pi);
+T2_ABB = transl(-0.2, 0.1, 0)* troty(pi);
+T3_ABB = transl(-0.2, 0.1, 0.1)* troty(pi);
 
-q1 = robot.model.ikcon(T1, currentPos);
-q2 = robot.model.ikcon(T2, currentPos);
-q3 = robot.model.ikcon(T3, currentPos);
+q1_ABB = robot2.model.ikcon(T1_ABB, currentPosABB);
+q2_ABB = robot2.model.ikcon(T2_ABB, currentPosABB);
+q3_ABB = robot2.model.ikcon(T3_ABB, currentPosABB);
 
 % Move to first plot
-T4 = transl(-2, 0, 1)*troty(pi);
-T5 = transl(-2, 0, 0)*troty(pi);
-T6 = transl(-2, 0, 0)*troty(pi);
-T7 = transl(-2, 0, 1)*troty(pi);
+T4_ABB = transl(-0.2, 0, 0.1)*troty(pi);
+T5_ABB = transl(-0.2, 0, 0)*troty(angleDown);
+T6_ABB = transl(-0.2, 0, 0)*troty(angleUp);
+T7_ABB = transl(-0.2, 0, 0.2)*troty(pi);
 
 
 
-q4 = robot.model.ikcon(T4, currentPos);
-q5 = robot.model.ikcon(T5, currentPos);
-q6 = robot.model.ikcon(T6, currentPos);
-q7 = robot.model.ikcon(T7, currentPos);
+q4_ABB = robot2.model.ikcon(T4_ABB, currentPosABB);
+q5_ABB = robot2.model.ikcon(T5_ABB, currentPosABB);
+q6_ABB = robot2.model.ikcon(T6_ABB, currentPosABB);
+q7_ABB = robot2.model.ikcon(T7_ABB, currentPosABB);
 
 steps = 100;
 
 
+move2PosABB(robot2, currentPosABB, currentPosABB, steps, shovelVertices, shovel);
+currentPosABB = robot2.model.getpos();
 
-move2Pos(robot, currentPos, currentPos, steps, shovelVertices, shovel);
-currentPos = robot.model.getpos();
+move2PosABB(robot2, currentPosABB, q2_ABB, steps, shovelVertices, shovel);
+currentPosABB = robot2.model.getpos();
 
-move2Pos(robot, currentPos, q2, steps, shovelVertices, shovel);
-currentPos = robot.model.getpos();
+move2PosABB(robot2, currentPosABB, q3_ABB, steps, shovelVertices, shovel);
+currentPosABB = robot2.model.getpos();
 
-move2Pos(robot, currentPos, q3, steps, shovelVertices, shovel);
-currentPos = robot.model.getpos();
+move2PosABB(robot2, currentPosABB, q4_ABB, steps, shovelVertices, shovel);
+currentPosABB = robot2.model.getpos();
 
-move2Pos(robot, currentPos, q4, steps, shovelVertices, shovel);
-currentPos = robot.model.getpos();
+move2PosABB(robot2, currentPosABB, q5_ABB, steps, shovelVertices, shovel);
+currentPosABB = robot2.model.getpos();
 
-move2Pos(robot, currentPos, q5, steps, shovelVertices, shovel);
-currentPos = robot.model.getpos();
+move2PosABB(robot2, currentPosABB, q6_ABB, steps, shovelVertices, shovel);
+currentPosABB = robot2.model.getpos();
 
-move2Pos(robot, currentPos, q6, steps, shovelVertices, shovel);
-currentPos = robot.model.getpos();
-
-move2Pos(robot, currentPos, q7, steps, shovelVertices, shovel);
-currentPos = robot.model.getpos();
-
-%maximus_thane = rad2deg(currentPos)
+move2PosABB(robot2, currentPosABB, q7_ABB, steps, shovelVertices, shovel);
+currentPosABB = robot2.model.getpos();
 
 
 
 
-% move2Pos(robot, q1, q2, steps);
-% 
-% move2Pos(robot, q2, q3, steps);
-% 
-% move2Pos(robot, q3, q4, steps);
+function move2PosABB(robot2, startPosABB, endPosABB, steps, shovelVertices, shovel)
+    qMatrix = jtraj(startPosABB, endPosABB, steps);
+   
 
 
+            for i = 1:steps
 
-    function move2Pos(robot, startPos, endPos, steps, shovelVertices, shovel)
-        qMatrix = jtraj(startPos, endPos, steps);
-
-        for i = 1:steps
-
-            robot.model.animate(qMatrix(i,:));
-            tr = robot.model.fkine(qMatrix(i,:));
-            transformedVertices = [shovelVertices, ones(size(shovelVertices, 1),1)]*tr.T';
-            set(shovel, 'Vertices', transformedVertices(:, 1:3));
-            axis equal
-            drawnow()
-
+                robot2.model.animate(qMatrix(i,:));
+                tr = robot2.model.fkine(qMatrix(i,:));
+                transformedVertices = [shovelVertices, ones(size(shovelVertices, 1),1)]*tr.T';
+                set(shovel, 'Vertices', transformedVertices(:, 1:3));
+                axis equal
+                drawnow()
+            
+             end
         end
-    end
+   
+    
+
+
+ 
+  
