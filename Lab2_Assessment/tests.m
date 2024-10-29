@@ -16,7 +16,7 @@
         % 
        
       
-        robot = DobotMagician;
+        robot = IRB1100;
 
       
         % workspace = [-1 1 -1 1 0 1];                                       % Set the size of the workspace when drawing the robot        
@@ -110,10 +110,110 @@ currentPos = robot.model.getpos();
 % 
 % move2Pos(robot, q3, q4, steps);
 
+    % function move2Pos(robot, startPos, endPos, steps, shovelVertices, shovel)
+    %     qMatrix = jtraj(startPos, endPos, steps);
+    % 
+    %     for i = 1:steps
+    %         robot.model.animate(qMatrix(i,:));
+    %         tr = robot.model.fkine(qMatrix(i,:));
+    %         transformedVertices = [shovelVertices, ones(size(shovelVertices, 1),1)]*tr.T';
+    %         set(shovel, 'Vertices', transformedVertices(:, 1:3));
+    %         axis equal
+    %         drawnow()
+    % 
+    %     end
+    % end
+
+%% IRB1100 Movement Testing
+
+clc
+clear
+
+robot = IRB1100;
+hold on
+currentPos = robot.model.getpos();
+
+% F5 to pause, F5 to restart again
+
+
+
+% Shovel placement
+shovel = PlaceObject('shovel.ply');
+axis equal
+shovelVertices = get(shovel, 'Vertices');
+transformedVertices = [shovelVertices, ...
+    ones(size(shovelVertices, 1), 1)]*transl(0, -0.25, 1)';
+set(shovel, 'Vertices', transformedVertices(:, 1:3));
+
+
+
+q0 = currentPos;
+
+% Move to trowel and pick it up
+T1 = transl(-2, 1, 1)* troty(pi);
+T2 = transl(-2, 1, 0)* troty(pi);
+T3 = transl(-2, 1, 1)* troty(pi);
+
+q1 = robot.model.ikcon(T1, currentPos);
+q2 = robot.model.ikcon(T2, currentPos);
+q3 = robot.model.ikcon(T3, currentPos);
+
+% Move to first plot
+T4 = transl(-2, 0, 1)*troty(pi);
+T5 = transl(-2, 0, 0)*troty(pi);
+T6 = transl(-2, 0, 0)*troty(pi);
+T7 = transl(-2, 0, 1)*troty(pi);
+
+
+
+q4 = robot.model.ikcon(T4, currentPos);
+q5 = robot.model.ikcon(T5, currentPos);
+q6 = robot.model.ikcon(T6, currentPos);
+q7 = robot.model.ikcon(T7, currentPos);
+
+steps = 100;
+
+
+
+move2Pos(robot, currentPos, currentPos, steps, shovelVertices, shovel);
+currentPos = robot.model.getpos();
+
+move2Pos(robot, currentPos, q2, steps, shovelVertices, shovel);
+currentPos = robot.model.getpos();
+
+move2Pos(robot, currentPos, q3, steps, shovelVertices, shovel);
+currentPos = robot.model.getpos();
+
+move2Pos(robot, currentPos, q4, steps, shovelVertices, shovel);
+currentPos = robot.model.getpos();
+
+move2Pos(robot, currentPos, q5, steps, shovelVertices, shovel);
+currentPos = robot.model.getpos();
+
+move2Pos(robot, currentPos, q6, steps, shovelVertices, shovel);
+currentPos = robot.model.getpos();
+
+move2Pos(robot, currentPos, q7, steps, shovelVertices, shovel);
+currentPos = robot.model.getpos();
+
+%maximus_thane = rad2deg(currentPos)
+
+
+
+
+% move2Pos(robot, q1, q2, steps);
+% 
+% move2Pos(robot, q2, q3, steps);
+% 
+% move2Pos(robot, q3, q4, steps);
+
+
+
     function move2Pos(robot, startPos, endPos, steps, shovelVertices, shovel)
         qMatrix = jtraj(startPos, endPos, steps);
 
         for i = 1:steps
+
             robot.model.animate(qMatrix(i,:));
             tr = robot.model.fkine(qMatrix(i,:));
             transformedVertices = [shovelVertices, ones(size(shovelVertices, 1),1)]*tr.T';
@@ -123,4 +223,3 @@ currentPos = robot.model.getpos();
 
         end
     end
-
